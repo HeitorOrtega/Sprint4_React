@@ -1,10 +1,21 @@
 "use client"; 
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+
+interface Usuario {
+    nome: string;
+    email: string;
+    senha: string;
+    confirmaSenha: string;
+    cpf: string;
+    telefone: string;
+    cep: string;
+    cidade: string;
+    estado: string;
+}
 
 const Cadastro = () => {
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<Usuario>({
         nome: '',
         email: '',
         senha: '',
@@ -16,7 +27,7 @@ const Cadastro = () => {
         estado: ''
     });
 
-    const [errors, setErrors] = useState({
+    const [errors, setErrors] = useState<Record<string, string>>({
         nome: '',
         email: '',
         senha: '',
@@ -29,7 +40,8 @@ const Cadastro = () => {
     });
 
     const [mensagemSucesso, setMensagemSucesso] = useState('');
-    const router = useRouter();
+    // Removendo o uso do router se não for necessário
+    // const router = useRouter(); 
 
     const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const regexCpf = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
@@ -92,12 +104,10 @@ const Cadastro = () => {
         setErrors(newErrors);
 
         if (valido) {
-
             const usuariosString = localStorage.getItem('usuarios');
-            
-            const usuarios = usuariosString ? JSON.parse(usuariosString) : [];
-            
-            const usuarioExistente = usuarios.find((usuario:any) => usuario.email === formData.email);
+            const usuarios: Usuario[] = usuariosString ? JSON.parse(usuariosString) : [];
+
+            const usuarioExistente = usuarios.find((usuario) => usuario.email === formData.email);
             
             if (usuarioExistente) {
                 alert('Um usuário com este e-mail já está cadastrado.');
@@ -105,7 +115,7 @@ const Cadastro = () => {
                 usuarios.push({ ...formData });
                 localStorage.setItem('usuarios', JSON.stringify(usuarios));
                 setMensagemSucesso('Cadastro realizado com sucesso!');
-        
+
                 setFormData({
                     nome: '',
                     email: '',
@@ -266,11 +276,8 @@ const Cadastro = () => {
                     {errors.estado && <span className="text-red-500 text-sm">{errors.estado}</span>}
                 </div>
 
-                <button type="submit" className="w-full py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300">
-                    Cadastrar
-                </button>
-
-                {mensagemSucesso && <p className="text-green-500 text-center mt-4">{mensagemSucesso}</p>}
+                <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded">Cadastrar</button>
+                {mensagemSucesso && <p className="text-green-500 mt-4">{mensagemSucesso}</p>}
             </form>
         </div>
     );
