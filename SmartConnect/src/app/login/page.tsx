@@ -11,15 +11,17 @@ const Login = () => {
     const router = useRouter();
 
     const handleLogin = () => {
-        const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
-        const usuario = usuarios.find((usuario) => usuario.email === email && usuario.senha === senha);
+    
+        const usuariosString = localStorage.getItem('usuarios') ?? '[]';
+        const usuarios = JSON.parse(usuariosString);
+        const usuario = usuarios.find((usuario: { email: string; senha: string }) => usuario.email === email && usuario.senha === senha);
 
         if (usuario) {
             setMensagemSucessoLogin('Login realizado com sucesso!');
             setErroLogin('');
             localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
 
-            // Redireciona para a página de agendamento após o login
+          
             setTimeout(() => {
                 router.push('/agendamento');
             }, 2000);
