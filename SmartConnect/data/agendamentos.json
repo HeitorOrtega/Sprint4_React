@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "placa": "abc1234",
+    "modelo": "C3",
+    "marca": "Citroen",
+    "data": "2024-10-19",
+    "horario": "13:45",
+    "endereco": "Oficina A"
+  },
+  {
+    "id": 2,
+    "placa": "def5678",
+    "modelo": "Sandero",
+    "marca": "Renault",
+    "data": "2024-10-19",
+    "horario": "20:24",
+    "endereco": "Oficina A"
+  }
+]
